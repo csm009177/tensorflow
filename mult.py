@@ -1,7 +1,10 @@
+# mult.py
+
+#! Keras 레이어를 사용하여 곱셈 연산을 수행하는 모델을 정의하고 실행하는 예제 코드
 import numpy as np
 import tensorflow as tf
 
-# 입력 정의
+# 입력 데이터 정의
 a = tf.keras.Input(shape=(), dtype=tf.float32)
 b = tf.keras.Input(shape=(), dtype=tf.float32)
 
