@@ -18,6 +18,10 @@ x_train, x_test = x_train / 255.0, x_test / 255.0
 #? y_train은 학습 데이터의 레이블, 
 #? x_test는 테스트 데이터, 
 #? y_test는 테스트 데이터의 레이블입니다.
+#? 레이블? 데이터의 정답을 의미합니다.
+#? 테스트 데이터? 모델이 학습하지 않은 데이터를 의미합니다.
+#? 
+
 
 # 층을 차례대로 쌓아 tf.keras.Sequential 모델을 만듭니다. 
 model = tf.keras.models.Sequential([

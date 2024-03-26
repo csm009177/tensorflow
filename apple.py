@@ -1,3 +1,5 @@
+#apple.py
+#! 사과와 오렌지를 구분하는 이진 분류 모델을 만들고 실행하는 예제 코드
 import tensorflow as tf
 import numpy as np
 
