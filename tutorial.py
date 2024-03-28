@@ -10,7 +10,6 @@ mnist = tf.keras.datasets.mnist
 #? MNIST 데이터세트는 0-9까지의 손으로 쓴 
 #? 숫자(0-9)의 이미지와 레이블(0-9)로 구성되어 있습니다.
 
-
 # 샘플 데이터를 정수에서 부동 소수점 숫자로 변환합니다.
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 x_train, x_test = x_train / 255.0, x_test / 255.0
@@ -20,27 +19,42 @@ x_train, x_test = x_train / 255.0, x_test / 255.0
 #? y_test는 테스트 데이터의 레이블입니다.
 #? 레이블? 데이터의 정답을 의미합니다.
 #? 테스트 데이터? 모델이 학습하지 않은 데이터를 의미합니다.
-#? 
+#? 학습 데이터? 모델이 학습하는 데이터를 의미합니다.
 
+# CSV 파일에서 데이터 로드
+# file_path = 'path_to_your_csv_file.csv'
+# data = tf.data.experimental.make_csv_dataset(file_path, batch_size=32)
+#? make_csv_dataset? CSV 파일에서 데이터세트를 만드는 함수
+#? batch_size? 배치 크기를 지정하는 매개변수
 
-# 층을 차례대로 쌓아 tf.keras.Sequential 모델을 만듭니다. 
+# layers를 차례대로 쌓아 tf.keras.Sequential 모델을 만듭니다.
+#? 층이 뭔가? 신경망의 구성 요소로, 입력 데이터에서 특성을 추출하는 역할을 합니다.
 model = tf.keras.models.Sequential([
-  #? 옵티마이저는 모델이 손실 함수를 줄이는 방향으로 가중치를 업데이트하는 방법을 결정합니다.
-  #? 손실 함수는 모델의 출력이 원하는 출력에서 얼마나 떨어져 있는지 측정합니다.
+  #? Sequential 모델? 층을 차례대로 쌓아 만드는 모델
+  # Flatten 층은 28x28 픽셀의 이미지 포맷을 784 픽셀의 1차원 배열로 변환합니다.
   tf.keras.layers.Flatten(input_shape=(28, 28)),
-  #? Flatten 층은 28x28 픽셀의 이미지 포맷을 784 픽셀의 1차원 배열로 변환합니다.
+  #? Flatten을 하는 이유? 이미지 데이터를 1차원 배열로 변환하여 신경망에 입력하기 위함
+  #? 1차원 배열이라면 선을 말하는 것인가? 1차원 배열은 선이라기보다는 벡터라고 부릅니다.
+  #? 벡터와 선의 차이? 벡터는 크기와 방향을 가지는 양, 선은 방향만 가지는 양
+  # Dense 층은 노드가 128개인 Dense 층을 추가합니다.
   tf.keras.layers.Dense(128, activation='relu'),
-  #? Dense 층은 노드가 128개인 Dense 층을 추가합니다.
+  #? Dense? 완전 연결 층, 층의 모든 노드가 이전 층의 모든 노드와 연결되어 있는 층
+  #? 완전 연결 층? 층의 모든 노드가 이전 층의 모든 노드와 연결되어 있는 층
+  #? Dense 단어 뜻? 밀집한, 조밀한, 밀집한 층이라는 뜻
   tf.keras.layers.Dropout(0.2),
   #? Dropout 층은 과대적합을 방지하기 위해 추가합니다.
   tf.keras.layers.Dense(10, activation='softmax')
   #? 마지막 Dense 층은 10개의 노드를 가진 softmax 층입니다.
 ])
 
+# 모델을 컴파일합니다.
 # 훈련에 사용할 옵티마이저(optimizer)와 손실 함수를 선택합니다
 model.compile(optimizer='adam',
+  #? 옵티마이저? 모델이 손실 함수를 최소화하기 위해 가중치를 업데이트하는 방법
               loss='sparse_categorical_crossentropy',
+  #? 손실 함수? 모델의 예측이 실제 값과 얼마나 일치하는지 측정하는 함수              
               metrics=['accuracy'])
+  #? metrics? 모델을 평가하는 데 사용되는 지표
 
 # 각 예시에서 모델은 각 클래스에 대해 하나씩, logits 또는 log-odds 스코어 벡터를 반환합니다.
 predictions = model(x_train[:1]).numpy()
@@ -71,8 +85,10 @@ model.compile(optimizer='adam',
 
 # 모델을 훈련하고 평가합니다
 model.fit(x_train, y_train, epochs=5)
+#? model.fit? 모델을 학습시키는 함수
 # Model.evaluate 메서드는 일반적으로 "Validation-set" 또는 "Test-set"에서 모델 성능을 확인합니다.
 model.evaluate(x_test,  y_test, verbose=2)
+#? model.evaluate? 모델을 평가하는 함수
 # 훈련된 이미지 분류기는 이 데이터셋에서 약 98%의 정확도를 달성합니다. 더 자세한 내용은 TensorFlow 튜토리얼을 참고하세요.
 
 # 모델이 확률을 반환하도록 하려면 다음과 같이 훈련된 모델을 래핑하고 여기에 소프트맥스를 첨부할 수 있습니다.

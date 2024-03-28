@@ -26,3 +26,5 @@ model.fit(X_train, y_train, epochs=100)
 X_new = np.array([[110], [160]])
 predictions = model.predict(X_new)
 print(predictions)
+
+#? 왜 컴파일을 한거지? 모델을 학습하기 전에 컴파일을 해야함
