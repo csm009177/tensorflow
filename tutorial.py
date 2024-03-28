@@ -50,16 +50,17 @@ model = tf.keras.models.Sequential([
 # 모델을 컴파일합니다.
 # 훈련에 사용할 옵티마이저(optimizer)와 손실 함수를 선택합니다
 model.compile(optimizer='adam',
+  #? 컴파일을 왜 할까? 모델을 훈련하기 전에 설정이 필요한 몇 가지 추가적인 매개변수를 모델에 추가합니다.
   #? 옵티마이저? 모델이 손실 함수를 최소화하기 위해 가중치를 업데이트하는 방법
               loss='sparse_categorical_crossentropy',
-  #? 손실 함수? 모델의 예측이 실제 값과 얼마나 일치하는지 측정하는 함수              
+  #? 손실 함수? 모델의 예측이 실제 값과 얼마나 일치하는지 측정하는 함수
               metrics=['accuracy'])
   #? metrics? 모델을 평가하는 데 사용되는 지표
 
 # 각 예시에서 모델은 각 클래스에 대해 하나씩, logits 또는 log-odds 스코어 벡터를 반환합니다.
 predictions = model(x_train[:1]).numpy()
-predictions
 #? predictions 배열의 각 요소는 해당 클래스에 속할 확률을 나타냅니다.
+predictions
 
 # tf.nn.softmax 함수는 다음과 같이 이러한 로짓을 각 클래스에 대한 확률로 변환합니다.
 # tf.nn.softmax 함수를 네트워크의 마지막 레이어에 대한 활성화 함수로 베이킹할 수 있습니다. 
